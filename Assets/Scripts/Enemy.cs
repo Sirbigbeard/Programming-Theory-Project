@@ -5,13 +5,13 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     protected bool moving = false;
-    protected float randomX;
-    protected float randomY;
+    private float randomX;
+    private float randomY;
     protected Rigidbody enemyRb;
     // Start is called before the first frame update
     void Start()
     {
-        
+        enemyRb = gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
@@ -31,21 +31,15 @@ public class Enemy : MonoBehaviour
         {
             MoveY();
         }
-        /*for(int x = 0; x < randomMovement; x++)
-        {
-            transform.Translate(Vector3.forward * Time.deltaTime * speed);
-            WaitForSeconds(.1);
-        }*/
+        new WaitForSeconds(15);
         moving = false;
-        
-        //Look at how they moved their trucks around
     }
     protected void MoveX()
     {
         randomX = Random.Range(1, 15);
         while (transform.position.x < randomX)
         {
-            enemyRb.AddForce(1, 0, 0, ForceMode.Impulse);
+            enemyRb.AddForce(1 * Time.deltaTime, 0, 0, ForceMode.Impulse);
         }
         while (transform.position.x >= randomX)
         {
@@ -58,11 +52,12 @@ public class Enemy : MonoBehaviour
         randomY = Random.Range(1, 15);
         while (transform.position.y < randomY)
         {
-            transform.Translate(1, 0, 0);
+            enemyRb.AddForce(0, 1, 0, ForceMode.Impulse);
         }
         while (transform.position.y >= randomY)
         {
-            transform.Translate(-1, 0, 0);
+            enemyRb.AddForce(0, -1, 0, ForceMode.Impulse);
         }
+        enemyRb.velocity = new Vector3(0, 0, 0);
     }
 }

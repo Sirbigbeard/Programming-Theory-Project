@@ -4,11 +4,10 @@ using UnityEngine;
 
 public class LargeEnemy : Enemy
 {
-    //protected Rigidbody enemyRb;
     // Start is called before the first frame update
     void Start()
     {
-        enemyRb = gameObject.GetComponent<Rigidbody>();
+        //enemyRb = gameObject.GetComponent<Rigidbody>();
     }
 
     // Update is called once per frame
