@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MediumEnemy : MonoBehaviour
+public class MediumEnemy : Enemy
 {
     // Start is called before the first frame update
     void Start()
@@ -13,6 +13,11 @@ public class MediumEnemy : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
+        if (moving == false)
+        {
+            Move();
+            Debug.Log("test1");
+            moving = true;
+        }
     }
 }
