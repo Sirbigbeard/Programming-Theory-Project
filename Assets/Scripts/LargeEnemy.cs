@@ -17,7 +17,6 @@ public class LargeEnemy : Enemy
         {
             new WaitForSeconds(1);
             Move();
-            Debug.Log("test1");
             moving = true;
         }
         else
@@ -26,38 +25,67 @@ public class LargeEnemy : Enemy
         }
 
     }
-    //I normally would not overload this method, instead making a variable in parent Enemy class to track the speed and setting it in this class, but gotta perform the assignment's requirements and one is method overriding
-    protected void MoveX()
+    protected void Move()
     {
-        randomX = Random.Range(1, 15);
-        if (transform.position.x < randomX)
+        int direction = Random.Range(1, 3);
+        if (direction == 1)
         {
-            enemyRb.AddForce(2, 0, 0, ForceMode.Impulse);
-            xPositive = true;
-            Debug.Log("moved x positive");
+            MoveX();
         }
         else
         {
-            enemyRb.AddForce(-2, 0, 0, ForceMode.Impulse);
+            MoveY();
+        }
+    }
+    protected void MoveX()
+    {
+        randomX = Random.Range(-20f, 20f);
+        if (transform.position.x < randomX)
+        {
+            enemyRb.AddForce(3, 0, 0, ForceMode.Impulse);
+            xPositive = true;
+        }
+        else
+        {
+            enemyRb.AddForce(-3, 0, 0, ForceMode.Impulse);
             xPositive = false;
-            Debug.Log("moved x negative");
         }
     }
     protected void MoveY()
     {
-        randomY = Random.Range(1, 15);
+        randomY = Random.Range(-8.8f, 9.5f);
         if (transform.position.z < randomY)
         {
-            enemyRb.AddForce(0, 0, 2, ForceMode.Impulse);
+            enemyRb.AddForce(0, 0, 3, ForceMode.Impulse);
             yPositive = true;
-            Debug.Log("moved z positive");
 
         }
         else
         {
-            enemyRb.AddForce(0, 0, -2, ForceMode.Impulse);
+            enemyRb.AddForce(0, 0, -3, ForceMode.Impulse);
             yPositive = false;
-            Debug.Log("moved z negative");
         }
+    }
+    protected void CheckPosition()
+    {
+        if ((!xPositive && transform.position.x < randomX) || (xPositive && transform.position.x > randomX) || (!yPositive && transform.position.z < randomY) || 
+            (yPositive && transform.position.z > randomY) || (transform.position.x > 20) || (transform.position.x < -20) || (transform.position.z > 9.5f) || (transform.position.z < -8.8f))
+        {
+            enemyRb.velocity = new Vector3(0, 0, 0);
+            transform.rotation = smallEnemy.transform.rotation;
+            moving = false;
+        }
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.tag == ("Player"))
+        {
+            DealDamage();
+        }
+    }
+    void DealDamage()
+    {
+        health -= 2;
+        Debug.Log(health);
     }
 }

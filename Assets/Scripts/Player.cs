@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     private float verticalInput;
     private float speed = 15;
     private Rigidbody playerRb;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,23 +19,19 @@ public class Player : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+
         RegisterMovement();
+
     }
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.tag != "projectile")
-        {
-            GameOver();
-            Destroy(other);
-        }
-    }
-    private void GameOver()
+
+    public void GameOver()
     {
         Debug.Log("Game Over");
         SceneManager.LoadScene("Game Over");
     }
     private void RegisterMovement()
     {
+        playerRb.velocity = new Vector3(0, 0, 0);
         verticalInput = Input.GetAxis("Vertical");
         horizontalInput = Input.GetAxis("Horizontal");
         transform.Translate(Vector3.forward * Time.deltaTime * verticalInput * speed);
